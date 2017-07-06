@@ -1,6 +1,8 @@
 package com.kickstarter.viewmodels.outputs;
 
 
+import com.kickstarter.models.Project;
+
 import rx.Observable;
 
 public interface CreatorDashboardHeaderHolderViewModelOutputs {
@@ -9,6 +11,9 @@ public interface CreatorDashboardHeaderHolderViewModelOutputs {
 
   /* percentage funded text */
   Observable<String> percentageFundedTextViewText();
+
+  /* project that is currently being viewed */
+  Observable<Project> currentProject();
 
   /* time remaining for latest project (no units) */
   Observable<String> timeRemaining();

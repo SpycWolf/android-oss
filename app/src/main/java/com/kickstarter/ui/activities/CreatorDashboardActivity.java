@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
+import com.kickstarter.KSApplication;
 import com.kickstarter.R;
 import com.kickstarter.libs.BaseActivity;
 import com.kickstarter.libs.KSCurrency;
@@ -30,6 +33,7 @@ import static com.kickstarter.libs.rx.transformers.Transformers.observeForUI;
 @RequiresActivityViewModel(CreatorDashboardViewModel.ViewModel.class)
 public final class CreatorDashboardActivity extends BaseActivity<CreatorDashboardViewModel.ViewModel> {
 
+  protected @Bind(R.id.creator_dashboard_recycler_view) RecyclerView creatorDashboardRecyclerView;
   protected @Bind(R.id.creator_dashboard_amount_raised) TextView amountRaisedTextView;
   protected @Bind(R.id.creator_dashboard_funding_text) TextView fundingTextTextView;
   protected @Bind(R.id.creator_dashboard_backer_count) TextView backerCountTextView;
@@ -49,10 +53,12 @@ public final class CreatorDashboardActivity extends BaseActivity<CreatorDashboar
     setContentView(R.layout.creator_dashboard_layout);
     ButterKnife.bind(this);
 
+    this.adapter = new CreatorDashboardAdapter();
+    creatorDashboardRecyclerView.setAdapter(this.adapter);
+    creatorDashboardRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
     this.ksCurrency = this.environment().ksCurrency();
     this.ksString = this.environment().ksString();
-
-    this.adapter = new CreatorDashboardAdapter();
 
     viewModel.outputs.latestProject()
       .compose(bindToLifecycle())
